@@ -8,9 +8,11 @@ interface Article {
   title?: string
   slug?: string
   content?: string
-  excerpt?: string
-  metaTitle?: string
-  metaDesc?: string
+  excerpt?: string | null
+  metaTitle?: string | null
+  metaDesc?: string | null
+  imageUrl?: string | null
+  imageAlt?: string | null
   published?: boolean
 }
 
