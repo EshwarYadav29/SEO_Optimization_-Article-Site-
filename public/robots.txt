@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: http://localhost:3000/sitemap.xml
+Sitemap: https://seo-cms-07f9.onrender.com/sitemap.xml
