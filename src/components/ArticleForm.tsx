@@ -85,18 +85,20 @@ export default function ArticleForm({ article }: { article?: Article }) {
     border: '2px solid var(--gray-200)',
     borderLeft: `4px solid ${accentColor}`,
     borderRadius: 'var(--radius-lg)',
-    padding: '1.75rem',
-    marginBottom: '1.25rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+    padding: '2rem', // Increased slightly for breathing room
+    marginBottom: '1.5rem',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+    width: '100%',
+    boxSizing: 'border-box' as const,
   })
 
   const headingStyle = (color: string) => ({
-    fontSize: '0.75rem',
+    fontSize: '0.85rem', // Slightly larger section titles
     fontWeight: 700,
     color,
     letterSpacing: '0.08em',
     textTransform: 'uppercase' as const,
-    marginBottom: '1.25rem',
+    marginBottom: '1.5rem',
     paddingBottom: '0.75rem',
     borderBottom: `2px solid ${color}22`,
     display: 'flex',
@@ -109,11 +111,20 @@ export default function ArticleForm({ article }: { article?: Article }) {
     fontSize: '0.875rem',
     fontWeight: 600,
     color: 'var(--gray-700)',
-    marginBottom: '0.4rem',
+    marginBottom: '0.5rem',
+  }
+
+  // Base input layout styles to avoid reliance on cramped global class styles
+  const baseInputStyle = {
+    width: '100%',
+    boxSizing: 'border-box' as const,
+    padding: '0.75rem 1rem',
+    borderRadius: 'var(--radius-md, 6px)',
+    border: '1px solid var(--gray-300, #ccc)',
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
       {error && (
         <div style={{
           background: '#fef2f2',
@@ -134,7 +145,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
           ✦ Article Content
         </h2>
 
-        <div style={{ marginBottom: '1.25rem' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
           <label style={labelStyle}>
             Title <span style={{ color: '#dc2626' }}>*</span>
           </label>
@@ -145,24 +156,30 @@ export default function ArticleForm({ article }: { article?: Article }) {
             required
             placeholder="Enter article title..."
             className="form-input"
+            style={{ ...baseInputStyle }}
           />
         </div>
 
-        <div style={{ marginBottom: '1.25rem' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
           <label style={labelStyle}>Slug</label>
           <input
             type="text"
             value={form.slug}
             onChange={e => setForm(prev => ({ ...prev, slug: e.target.value }))}
             className="form-input"
-            style={{ fontFamily: 'monospace', fontSize: '0.8125rem', color: 'var(--gray-500)' }}
+            style={{ 
+              ...baseInputStyle,
+              fontFamily: 'monospace', 
+              fontSize: '0.8125rem', 
+              color: 'var(--gray-500)' 
+            }}
           />
-          <p style={{ fontSize: '0.8rem', color: 'var(--gray-400)', marginTop: '0.3rem' }}>
+          <p style={{ fontSize: '0.8rem', color: 'var(--gray-400)', marginTop: '0.4rem' }}>
             Auto-generated from title · URL: /{form.slug || 'your-slug'}
           </p>
         </div>
 
-        <div style={{ marginBottom: '1.25rem' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
           <label style={labelStyle}>
             Content <span style={{ color: '#dc2626' }}>*</span>
           </label>
@@ -170,10 +187,17 @@ export default function ArticleForm({ article }: { article?: Article }) {
             value={form.content}
             onChange={e => setForm(prev => ({ ...prev, content: e.target.value }))}
             required
-            rows={14}
+            rows={18} // Increased row presence for writing luxury
             placeholder="Write your article content here..."
             className="form-input"
-            style={{ resize: 'vertical', fontFamily: 'inherit', fontSize: '0.9375rem', lineHeight: 1.8, minHeight: '320px' }}
+            style={{ 
+              ...baseInputStyle,
+              resize: 'vertical', 
+              fontFamily: 'inherit', 
+              fontSize: '1rem', // Bumped font size for readability
+              lineHeight: 1.8, 
+              minHeight: '450px' // Increased default canvas area 
+            }}
           />
         </div>
 
@@ -182,10 +206,17 @@ export default function ArticleForm({ article }: { article?: Article }) {
           <textarea
             value={form.excerpt}
             onChange={e => setForm(prev => ({ ...prev, excerpt: e.target.value }))}
-            rows={3}
+            rows={4}
             placeholder="Short summary shown on the homepage listing..."
             className="form-input"
-            style={{ resize: 'vertical', fontFamily: 'inherit', fontSize: '0.9375rem', lineHeight: 1.7, minHeight: '100px' }}
+            style={{ 
+              ...baseInputStyle,
+              resize: 'vertical', 
+              fontFamily: 'inherit', 
+              fontSize: '0.9375rem', 
+              lineHeight: 1.7, 
+              minHeight: '120px' 
+            }}
           />
         </div>
       </div>
@@ -196,7 +227,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
           ◎ SEO Settings
         </h2>
 
-        <div style={{ marginBottom: '1.25rem' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
           <label style={labelStyle}>Meta Title</label>
           <input
             type="text"
@@ -204,6 +235,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
             onChange={e => setForm(prev => ({ ...prev, metaTitle: e.target.value }))}
             placeholder="Defaults to article title if empty"
             className="form-input"
+            style={{ ...baseInputStyle }}
           />
         </div>
 
@@ -221,11 +253,14 @@ export default function ArticleForm({ article }: { article?: Article }) {
             maxLength={155}
             placeholder="Shown in Google search results..."
             className="form-input"
-            style={{ resize: 'none' }}
+            style={{ 
+              ...baseInputStyle,
+              resize: 'none' 
+            }}
           />
           {/* Character bar */}
           <div style={{
-            marginTop: '0.4rem',
+            marginTop: '0.5rem',
             height: '4px',
             background: 'var(--gray-100)',
             borderRadius: '999px',
@@ -278,7 +313,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
       </div>
 
       {/* Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '3rem' }}>
         <button
           type="submit"
           disabled={loading}
