@@ -82,256 +82,159 @@ export default function ArticleForm({ article }: { article?: Article }) {
 
   const cardStyle = (accentColor: string) => ({
     background: '#fff',
-    border: '2px solid var(--gray-200)',
+    border: '1px solid #e5e7eb',
     borderLeft: `4px solid ${accentColor}`,
-    borderRadius: 'var(--radius-lg)',
-    padding: '2rem', // Increased slightly for breathing room
+    borderRadius: '12px',
+    padding: '2rem',
     marginBottom: '1.5rem',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-    width: '100%',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.03)',
     boxSizing: 'border-box' as const,
-  })
-
-  const headingStyle = (color: string) => ({
-    fontSize: '0.85rem', // Slightly larger section titles
-    fontWeight: 700,
-    color,
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase' as const,
-    marginBottom: '1.5rem',
-    paddingBottom: '0.75rem',
-    borderBottom: `2px solid ${color}22`,
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
   })
 
   const labelStyle = {
     display: 'block',
     fontSize: '0.875rem',
     fontWeight: 600,
-    color: 'var(--gray-700)',
+    color: '#374151',
     marginBottom: '0.5rem',
   }
 
-  // Base input layout styles to avoid reliance on cramped global class styles
   const baseInputStyle = {
     width: '100%',
     boxSizing: 'border-box' as const,
     padding: '0.75rem 1rem',
-    borderRadius: 'var(--radius-md, 6px)',
-    border: '1px solid var(--gray-300, #ccc)',
+    borderRadius: '6px',
+    border: '1px solid #d1d5db',
+    fontSize: '0.95rem',
+    outline: 'none',
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
-      {error && (
-        <div style={{
-          background: '#fef2f2',
-          border: '1px solid #fca5a5',
-          color: '#dc2626',
-          padding: '0.875rem 1rem',
-          borderRadius: 'var(--radius-md)',
-          marginBottom: '1.5rem',
-          fontSize: '0.9rem',
-        }}>
-          ⚠ {error}
-        </div>
-      )}
-
-      {/* Main Content Card */}
-      <div style={cardStyle('var(--brand-500)')}>
-        <h2 style={headingStyle('var(--brand-600)')}>
-          ✦ Article Content
-        </h2>
-
-        <div style={{ marginBottom: '1.5rem' }}>
-          <label style={labelStyle}>
-            Title <span style={{ color: '#dc2626' }}>*</span>
-          </label>
-          <input
-            type="text"
-            value={form.title}
-            onChange={handleTitleChange}
-            required
-            placeholder="Enter article title..."
-            className="form-input"
-            style={{ ...baseInputStyle }}
-          />
-        </div>
-
-        <div style={{ marginBottom: '1.5rem' }}>
-          <label style={labelStyle}>Slug</label>
-          <input
-            type="text"
-            value={form.slug}
-            onChange={e => setForm(prev => ({ ...prev, slug: e.target.value }))}
-            className="form-input"
-            style={{ 
-              ...baseInputStyle,
-              fontFamily: 'monospace', 
-              fontSize: '0.8125rem', 
-              color: 'var(--gray-500)' 
-            }}
-          />
-          <p style={{ fontSize: '0.8rem', color: 'var(--gray-400)', marginTop: '0.4rem' }}>
-            Auto-generated from title · URL: /{form.slug || 'your-slug'}
-          </p>
-        </div>
-
-        <div style={{ marginBottom: '1.5rem' }}>
-          <label style={labelStyle}>
-            Content <span style={{ color: '#dc2626' }}>*</span>
-          </label>
-          <textarea
-            value={form.content}
-            onChange={e => setForm(prev => ({ ...prev, content: e.target.value }))}
-            required
-            rows={18} // Increased row presence for writing luxury
-            placeholder="Write your article content here..."
-            className="form-input"
-            style={{ 
-              ...baseInputStyle,
-              resize: 'vertical', 
-              fontFamily: 'inherit', 
-              fontSize: '1rem', // Bumped font size for readability
-              lineHeight: 1.8, 
-              minHeight: '450px' // Increased default canvas area 
-            }}
-          />
-        </div>
-
-        <div>
-          <label style={labelStyle}>Excerpt</label>
-          <textarea
-            value={form.excerpt}
-            onChange={e => setForm(prev => ({ ...prev, excerpt: e.target.value }))}
-            rows={4}
-            placeholder="Short summary shown on the homepage listing..."
-            className="form-input"
-            style={{ 
-              ...baseInputStyle,
-              resize: 'vertical', 
-              fontFamily: 'inherit', 
-              fontSize: '0.9375rem', 
-              lineHeight: 1.7, 
-              minHeight: '120px' 
-            }}
-          />
-        </div>
-      </div>
-
-      {/* SEO Card */}
-      <div style={cardStyle('#7c3aed')}>
-        <h2 style={headingStyle('#7c3aed')}>
-          ◎ SEO Settings
-        </h2>
-
-        <div style={{ marginBottom: '1.5rem' }}>
-          <label style={labelStyle}>Meta Title</label>
-          <input
-            type="text"
-            value={form.metaTitle}
-            onChange={e => setForm(prev => ({ ...prev, metaTitle: e.target.value }))}
-            placeholder="Defaults to article title if empty"
-            className="form-input"
-            style={{ ...baseInputStyle }}
-          />
-        </div>
-
-        <div>
-          <label style={labelStyle}>
-            Meta Description
-            <span style={{ fontWeight: 400, color: 'var(--gray-400)', marginLeft: '0.5rem' }}>
-              ({form.metaDesc?.length ?? 0}/155)
-            </span>
-          </label>
-          <textarea
-            value={form.metaDesc}
-            onChange={e => setForm(prev => ({ ...prev, metaDesc: e.target.value }))}
-            rows={3}
-            maxLength={155}
-            placeholder="Shown in Google search results..."
-            className="form-input"
-            style={{ 
-              ...baseInputStyle,
-              resize: 'none' 
-            }}
-          />
-          {/* Character bar */}
+    /* THE BREAKOUT TRICK: 
+      These styles force the form container out of narrow parents up to 1000px 
+    */
+    <div style={{
+      width: '100vw',
+      maxWidth: '1000px',
+      margin: '2rem auto',
+      padding: '0 1.5rem',
+      boxSizing: 'border-box',
+    }}>
+      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+        {error && (
           <div style={{
-            marginTop: '0.5rem',
-            height: '4px',
-            background: 'var(--gray-100)',
-            borderRadius: '999px',
-            overflow: 'hidden',
+            background: '#fef2f2',
+            border: '1px solid #fca5a5',
+            color: '#dc2626',
+            padding: '0.875rem 1rem',
+            borderRadius: '6px',
+            marginBottom: '1.5rem',
+            fontSize: '0.9rem',
           }}>
-            <div style={{
-              height: '100%',
-              width: `${Math.min(((form.metaDesc?.length ?? 0) / 155) * 100, 100)}%`,
-              background: (form.metaDesc?.length ?? 0) > 140 ? '#dc2626' : '#7c3aed',
-              borderRadius: '999px',
-              transition: 'width 0.2s ease',
-            }} />
+            ⚠ {error}
+          </div>
+        )}
+
+        {/* Main Content Card */}
+        <div style={cardStyle('#3b82f6')}>
+          <h2 style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1d4ed8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem' }}>
+            ✦ Article Content
+          </h2>
+
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={labelStyle}>Title *</label>
+            <input
+              type="text"
+              value={form.title}
+              onChange={handleTitleChange}
+              required
+              placeholder="Enter article title..."
+              style={baseInputStyle}
+            />
+          </div>
+
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={labelStyle}>Slug</label>
+            <input
+              type="text"
+              value={form.slug}
+              onChange={e => setForm(prev => ({ ...prev, slug: e.target.value }))}
+              style={{ ...baseInputStyle, fontFamily: 'monospace', color: '#4b5563' }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={labelStyle}>Content *</label>
+            <textarea
+              value={form.content}
+              onChange={e => setForm(prev => ({ ...prev, content: e.target.value }))}
+              required
+              rows={20}
+              placeholder="Write your article content here..."
+              style={{ 
+                ...baseInputStyle, 
+                resize: 'vertical', 
+                lineHeight: '1.75', 
+                minHeight: '450px',
+                fontSize: '1rem' 
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={labelStyle}>Excerpt</label>
+            <textarea
+              value={form.excerpt}
+              onChange={e => setForm(prev => ({ ...prev, excerpt: e.target.value }))}
+              rows={4}
+              placeholder="Short summary..."
+              style={{ ...baseInputStyle, resize: 'vertical', minHeight: '100px' }}
+            />
           </div>
         </div>
-      </div>
 
-      {/* Publish Card */}
-      <div style={{
-        ...cardStyle(form.published ? '#16a34a' : '#d97706'),
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '1rem',
-        padding: '1.25rem 1.75rem',
-        marginBottom: '1.5rem',
-      }}>
-        <div>
-          <p style={{
-            fontWeight: 700,
-            fontSize: '0.9375rem',
-            color: form.published ? '#16a34a' : '#d97706',
-          }}>
-            {form.published ? '● Published' : '○ Draft'}
-          </p>
-          <p style={{ fontSize: '0.8rem', color: 'var(--gray-400)', marginTop: '0.15rem' }}>
-            {form.published ? 'Visible to the public' : 'Only visible in admin'}
-          </p>
+        {/* SEO Card */}
+        <div style={cardStyle('#7c3aed')}>
+          <h2 style={{ fontSize: '0.85rem', fontWeight: 700, color: '#6d28d9', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1.5rem' }}>
+            ◎ SEO Settings
+          </h2>
+
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={labelStyle}>Meta Title</label>
+            <input
+              type="text"
+              value={form.metaTitle}
+              onChange={e => setForm(prev => ({ ...prev, metaTitle: e.target.value }))}
+              placeholder="Defaults to title..."
+              style={baseInputStyle}
+            />
+          </div>
+
+          <div>
+            <label style={labelStyle}>Meta Description ({form.metaDesc?.length ?? 0}/155)</label>
+            <textarea
+              value={form.metaDesc}
+              onChange={e => setForm(prev => ({ ...prev, metaDesc: e.target.value }))}
+              rows={3}
+              maxLength={155}
+              placeholder="Google description..."
+              style={{ ...baseInputStyle, resize: 'none' }}
+            />
+          </div>
         </div>
-        <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer' }}>
-          <input
-            type="checkbox"
-            checked={form.published}
-            onChange={e => setForm(prev => ({ ...prev, published: e.target.checked }))}
-            style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--brand-600)' }}
-          />
-          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--gray-700)' }}>
-            Publish
-          </span>
-        </label>
-      </div>
 
-      {/* Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '3rem' }}>
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn btn-primary"
-        >
-          {loading ? 'Saving...' : isEditing ? 'Update Article' : 'Create Article'}
-        </button>
-
-        {isEditing && (
-          <button
-            type="button"
-            onClick={handleDelete}
-            className="btn btn-danger"
-          >
-            Delete Article
+        {/* Actions layout wrapper */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', paddingBottom: '4rem' }}>
+          <button type="submit" disabled={loading} style={{ background: '#2563eb', color: '#fff', border: 'none', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: 600, cursor: 'pointer' }}>
+            {loading ? 'Saving...' : isEditing ? 'Update Article' : 'Create Article'}
           </button>
-        )}
-      </div>
-    </form>
+          {isEditing && (
+            <button type="button" onClick={handleDelete} style={{ background: '#dc2626', color: '#fff', border: 'none', padding: '0.75rem 1.5rem', borderRadius: '6px', fontWeight: 600, cursor: 'pointer' }}>
+              Delete Article
+            </button>
+          )}
+        </div>
+      </form>
+    </div>
   )
 }
