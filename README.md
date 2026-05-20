@@ -12,12 +12,13 @@ featuring a full admin panel, dynamic SEO metadata, and a perfect Lighthouse sco
 
 | Metric | Score |
 |---|---|
-| Performance | 99 |
+| Performance | 96 |
 | Accessibility | 100 |
 | Best Practices | 100 |
 | SEO | 100 |
 
-<img width="738" height="256" alt="image" src="https://github.com/user-attachments/assets/7637ff9d-9296-45f0-b8d5-fef751bae650" />
+<img width="1009" height="338" alt="image" src="https://github.com/user-attachments/assets/0f171f44-c216-4650-8190-c6233851c89e" />
+
 
 
 ---
