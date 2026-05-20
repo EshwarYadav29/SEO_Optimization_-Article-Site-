@@ -8,7 +8,7 @@ export default async function EditArticlePage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  
+
   const article = await prisma.article.findUnique({
     where: { id: Number(id) }
   })
@@ -16,8 +16,15 @@ export default async function EditArticlePage({
   if (!article) notFound()
 
   return (
-    <div className="max-w-3xl">
-      <h2 className="text-2xl font-bold mb-6">Edit Article</h2>
+    <div style={{ maxWidth: '760px' }}>
+      <div style={{ marginBottom: '2rem' }}>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--gray-900)', marginBottom: '0.25rem' }}>
+          Edit Article
+        </h1>
+        <p style={{ fontSize: '0.875rem', color: 'var(--gray-500)' }}>
+          {article.title}
+        </p>
+      </div>
       <ArticleForm article={article} />
     </div>
   )
