@@ -64,8 +64,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
         throw new Error(data.error ?? 'Something went wrong')
       }
 
-      router.push('/admin')
-      router.refresh()
+      window.location.href = '/admin'
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
@@ -73,13 +72,11 @@ export default function ArticleForm({ article }: { article?: Article }) {
     }
   }
 
-  async function handleDelete() {
+    async function handleDelete() {
     if (!confirm('Delete this article? This cannot be undone.')) return
     await fetch(`/api/articles/${article?.id}`, { method: 'DELETE' })
-    router.push('/admin')
-    router.refresh()
-  }
-
+    window.location.href = '/admin'
+    }
   const cardStyle = (accentColor: string) => ({
     background: '#fff',
     border: '1px solid #e5e7eb',
@@ -222,6 +219,41 @@ export default function ArticleForm({ article }: { article?: Article }) {
             />
           </div>
         </div>
+
+        {/* Publish Card */}
+<div style={{
+  ...cardStyle(form.published ? '#16a34a' : '#d97706'),
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '1rem',
+  padding: '1.25rem 1.75rem',
+  marginBottom: '1.5rem',
+}}>
+  <div>
+    <p style={{
+      fontWeight: 700,
+      fontSize: '0.9375rem',
+      color: form.published ? '#16a34a' : '#d97706',
+    }}>
+      {form.published ? '● Published' : '○ Draft'}
+    </p>
+    <p style={{ fontSize: '0.8rem', color: '#9ca3af', marginTop: '0.15rem' }}>
+      {form.published ? 'Visible to the public' : 'Only visible in admin'}
+    </p>
+  </div>
+  <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer' }}>
+    <input
+      type="checkbox"
+      checked={form.published}
+      onChange={e => setForm(prev => ({ ...prev, published: e.target.checked }))}
+      style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#2563eb' }}
+    />
+    <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#374151' }}>
+      Publish
+    </span>
+  </label>
+</div>
 
         {/* Actions layout wrapper */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', paddingBottom: '4rem' }}>
