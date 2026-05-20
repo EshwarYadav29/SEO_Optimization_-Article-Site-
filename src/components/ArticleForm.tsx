@@ -155,7 +155,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
             value={form.slug}
             onChange={e => setForm(prev => ({ ...prev, slug: e.target.value }))}
             className="form-input"
-            style={{ fontFamily: 'monospace', fontSize: '0.875rem' }}
+            style={{ fontFamily: 'monospace', fontSize: '0.8125rem', color: 'var(--gray-500)' }}
           />
           <p style={{ fontSize: '0.8rem', color: 'var(--gray-400)', marginTop: '0.3rem' }}>
             Auto-generated from title · URL: /{form.slug || 'your-slug'}
@@ -173,7 +173,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
             rows={14}
             placeholder="Write your article content here..."
             className="form-input"
-            style={{ resize: 'vertical', fontFamily: 'monospace', fontSize: '0.875rem', lineHeight: 1.7 }}
+            style={{ resize: 'vertical', fontFamily: 'inherit', fontSize: '0.9375rem', lineHeight: 1.8, minHeight: '320px' }}
           />
         </div>
 
@@ -185,7 +185,7 @@ export default function ArticleForm({ article }: { article?: Article }) {
             rows={3}
             placeholder="Short summary shown on the homepage listing..."
             className="form-input"
-            style={{ resize: 'vertical' }}
+            style={{ resize: 'vertical', fontFamily: 'inherit', fontSize: '0.9375rem', lineHeight: 1.7, minHeight: '100px' }}
           />
         </div>
       </div>
